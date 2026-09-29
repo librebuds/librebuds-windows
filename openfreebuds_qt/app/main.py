@@ -40,7 +40,7 @@ class OfbQtMainWindow(Ui_OfbMainWindowDesign, IOfbMainWindow):
         self.setupUi(self)
 
         # Win32 staff
-        self.setWindowIcon(QIcon(str(ASSETS_PATH / "pw.mmk.OpenFreebuds.png")))
+        self.setWindowIcon(QIcon(str(ASSETS_PATH / "librebuds.png")))
         if sys.platform == "win32":
             self.body_content.setStyleSheet(WIN32_BODY_STYLE)
 

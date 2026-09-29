@@ -14,11 +14,9 @@ from openfreebuds_qt.generic import IOfbQtApplication
 from openfreebuds_qt.version_info import VERSION
 
 REPORT_HEADER = """
-   _____             _____             _         _     
-  |     |___ ___ ___|   __|___ ___ ___| |_ _ _ _| |___ 
-  |  |  | . | -_|   |   __|  _| -_| -_| . | | | . |_ -|
-  |_____|  _|___|_|_|__|  |_| |___|___|___|___|___|___|
-        |_|                                            
+========================================
+              LibreBuds
+========================================
 """
 REPORT_CONTACT_DATA = "https://github.com/librebuds/librebuds-windows/issues"
 REPORT_INTRO_DEFAULT = """

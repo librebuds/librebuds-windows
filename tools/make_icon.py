@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """Render the LibreBuds icon: two white capsule (earbud) shapes on black.
 
-Produces scripts/windows/librebuds.ico with 16/32/48/256 px frames.
+Produces:
+- scripts/windows/librebuds.ico, with 16/32/48/256 px frames (Windows
+  PyInstaller/NSIS icon).
+- openfreebuds_qt/assets/librebuds.png, a single 256 px frame (runtime Qt
+  window/taskbar icon).
+
 This is a build tool. It is not part of the runtime application and its
 only dependency, Pillow, is not added to the project's runtime
 dependencies (it is already a runtime dependency of the app itself, but
@@ -16,7 +21,9 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_PATH = REPO_ROOT / "scripts" / "windows" / "librebuds.ico"
+ICO_OUTPUT_PATH = REPO_ROOT / "scripts" / "windows" / "librebuds.ico"
+PNG_OUTPUT_PATH = REPO_ROOT / "openfreebuds_qt" / "assets" / "librebuds.png"
+PNG_SIZE = 256
 
 SIZES = (16, 32, 48, 256)
 
@@ -73,14 +80,20 @@ def draw_capsule_glyph(size: int) -> Image.Image:
 def main():
     frames = [draw_capsule_glyph(size) for size in SIZES]
 
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    ICO_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     frames[-1].save(
-        OUTPUT_PATH,
+        ICO_OUTPUT_PATH,
         format="ICO",
         sizes=[(s, s) for s in SIZES],
         append_images=frames[:-1],
     )
-    print(f"Wrote {OUTPUT_PATH} with sizes {SIZES}")
+    print(f"Wrote {ICO_OUTPUT_PATH} with sizes {SIZES}")
+
+    png_frame = (draw_capsule_glyph(PNG_SIZE) if PNG_SIZE not in SIZES
+                 else frames[SIZES.index(PNG_SIZE)])
+    PNG_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    png_frame.save(PNG_OUTPUT_PATH, format="PNG")
+    print(f"Wrote {PNG_OUTPUT_PATH} at {PNG_SIZE}x{PNG_SIZE}")
 
 
 if __name__ == "__main__":

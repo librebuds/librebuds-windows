@@ -60,7 +60,7 @@ install: install_check
     {{pip}} install \
         -q --upgrade --no-dependencies --ignore-requires-python \
         --target "{{dest_dir}}/{{python_path}}" \
-        "./dist/openfreebuds-{{version}}-py3-none-any.whl"
+        "./dist/librebuds_windows-{{version}}-py3-none-any.whl"
     mkdir -p "{{dest_dir}}/bin" \
              "{{dest_dir}}/share/applications" \
              "{{dest_dir}}/share/metainfo" \
@@ -80,7 +80,7 @@ install: install_check
 [group("os_linux"),private,linux,script]
 install_check:
     import os
-    assert os.path.isfile("./dist/openfreebuds-{{version}}-py3-none-any.whl"), \
+    assert os.path.isfile("./dist/librebuds_windows-{{version}}-py3-none-any.whl"), \
         "Prebuilt wheel not found, did you called `just build` before?"
     assert "{{python_venv}}" == "" or os.environ.get("PYTHONLIBPATH", "") != "", \
         "Leave virtualenv or set PYTHONLIBPATH to install"
@@ -91,7 +91,7 @@ internal_flatpakinstall:
     # Unify release name (version constant won't work inside Flatpak)
     mkdir -p ./dist
     find ./dist -name '*.whl' -type f | head -1 | \
-        xargs -I {} cp {} ./dist/openfreebuds-0.0-py3-none-any.whl
+        xargs -I {} cp {} ./dist/librebuds_windows-0.0-py3-none-any.whl
     # Install to /app
     touch /app/is_container
     DESTDIR=/app PYTHONLIBPATH=lib/python3.13/site-packages just install
