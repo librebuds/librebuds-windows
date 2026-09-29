@@ -62,7 +62,10 @@ class OfbQtDualConnectModule(Ui_OfbQtDualConnectModule, OfbQtCommonModule):
                 self.devices_list.setCurrentRow(self._current_index)
 
             self.button_toggle_connect.setEnabled(True)
-            self.current_device_auto_connect.setEnabled(True)
+            # LibreBuds: keep auto-connect disabled when the selected device does not report it
+            row = self.devices_list.currentRow()
+            selected = self._all_data[row][1] if 0 <= row < len(self._all_data) else {}
+            self.current_device_auto_connect.setEnabled(selected.get("auto_connect") is not None)
             self.current_device_prefered.setEnabled(True)
             self.refresh_button.setEnabled(True)
 
