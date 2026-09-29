@@ -16,7 +16,15 @@
 </p>
 </div>
 
-This application allows to control HUAWEI FreeBuds earphone settings from PC. Check exact battery level, toggle noise cancellation, control built-in equalizer, change gestures, and all other in-device settings and features are now available without official mobile application.
+Control HUAWEI FreeBuds from Windows and Linux: battery, noise control and more. A fork of OpenFreebuds with support for FreeBuds 4, 5 and 6 and model detection by model code. Android app: https://github.com/librebuds/librebuds.
+
+### Differences from OpenFreebuds
+
+- FreeBuds 4, FreeBuds 5 and FreeBuds 6 drivers;
+- Model-code detection: when the earbuds' Bluetooth name is not recognized (for example renamed earbuds), the app connects with an info-only probe, reads the model code the earbuds report, and picks the matching driver;
+- Test vectors shared with the LibreBuds Android project, replayed against the new drivers;
+- No upstream self-updater; updates are distributed as GitHub releases of this repository instead;
+- Multipoint connect and disconnect on the new drivers (unpair is not implemented).
 
 Features
 ---------
@@ -49,6 +57,42 @@ The desktop controls tray visibility and ordering. On Windows, indicators may
 initially appear in the hidden-icons (`^`) menu. The application creates them in
 left/right/case order, but cannot force their final position in the Windows tray.
 
+## Remote control
+
+The application runs a built-in HTTP server for remote control and scripting.
+The server starts automatically with the first application instance and
+listens on `http://127.0.0.1:19823` by default. Starting the application again
+while it is already running does not start a second server; the new process
+detects the running one and just brings the settings window to front (unless
+started with `--client`).
+
+Endpoints:
+
+- `GET /` serves a small built-in page that lists the available shortcuts as
+  clickable links and shows how to call the endpoints below from curl or
+  JavaScript;
+- `GET /list_shortcuts` returns the list of available shortcut names as JSON;
+- `GET /<shortcut>` runs the named shortcut (for example `mode_normal`,
+  `mode_cancellation`, `mode_awareness`, `enable_low_latency`, `next_mode`,
+  `toggle_connect`, `connect`, `disconnect`, `show_main_window`) and returns
+  `{"result": true}` on success;
+- `POST /__rpc__/<method>` calls a method of the running manager directly, for
+  example `set_property` or `get_property`, with a JSON body of
+  `{"args": [...], "kwargs": {...}}`. This is the same internal RPC channel
+  the application itself uses when a second instance connects to the first
+  one.
+
+By default the server only listens on localhost and does not require
+authorization. Open the settings window, then the extra options menu (the
+gear icon button, or the File menu on macOS) → **Remote access…**, to allow
+connections from other machines on the network and to turn on secret key
+verification. When secret key verification is enabled, every request must
+include an `X-Secret` header with the configured key, otherwise the server
+answers `401 Unauthorized`. These settings are only read when the application
+starts, so restart it after changing them. Allowing remote connections
+exposes control of the earbuds to anyone who can reach that port, so only
+enable it on a trusted network and set a secret key.
+
 Device compatibility
 ------------------------
 
@@ -56,9 +100,20 @@ See device page to get information about supported features.
 If your device isn't listed here, you could try to use it with profile for other model.
 
 - [HUAWEI FreeBuds 3](./docs/devices/HUAWEI_FreeBuds_3.md)
+- HUAWEI FreeBuds 4 (LibreBuds), experimental: battery and noise control only
 - [HUAWEI FreeBuds 4i](./docs/devices/HUAWEI_FreeBuds_4i.md)
   - **HONOR Earbuds 2 / 2 SE / 2 Lite** is same
+- HUAWEI FreeBuds 5 (LibreBuds): reading battery, noise control, gestures,
+  auto pause, equalizer presets and multipoint status is confirmed on
+  hardware; changing noise control and multipoint (connect, disconnect,
+  preferred device, no unpair) is also confirmed on hardware; changing other
+  settings is not yet confirmed on hardware
 - [HUAWEI FreeBuds 5i](./docs/devices/HUAWEI_FreeBuds_5i.md)
+- HUAWEI FreeBuds 6 (LibreBuds): reading battery, noise control, gestures,
+  auto pause, equalizer presets and multipoint status is confirmed on
+  hardware; changing noise control and multipoint (connect, disconnect,
+  preferred device, no unpair) is also confirmed on hardware; changing other
+  settings is not yet confirmed on hardware
 - [HUAWEI FreeBuds 6i](./docs/devices/HUAWEI_FreeBuds_6i.md)
 - [HUAWEI FreeBuds Pro](./docs/devices/HUAWEI_FreeBuds_Pro.md)
 - [HUAWEI FreeBuds Pro 2](./docs/devices/HUAWEI_FreeBuds_Pro_2.md)
