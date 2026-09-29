@@ -1,0 +1,3 @@
+[submodule "vendor/librebuds"]
+	path = vendor/librebuds
+	url = https://github.com/librebuds/librebuds.git
