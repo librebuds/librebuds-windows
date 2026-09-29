@@ -8,10 +8,12 @@ jobs:
     steps:
       - uses: pdm-project/setup-pdm@v4
         with:
-            python-version: 3.12.8
+            python-version: "3.14"
       - name: Install Just
         run: choco install -y just
       - uses: actions/checkout@v6
+        with:
+          submodules: true
       - run: just prepare
       - run: just --evaluate
       - run: just test
@@ -28,9 +30,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
+        with:
+          submodules: true
       - uses: pdm-project/setup-pdm@v4
         with:
-            python-version: 3.13
+            python-version: "3.14"
             cache: true
       - name: Install Just
         run: pip install -U --break-system-packages rust-just

@@ -148,17 +148,17 @@ Build from sources
 
 **Windows 10/11**:
 - [Just](https://github.com/casey/just);
-- [Python](https://www.python.org/downloads/) (3.13+), [PDM](https://pdm-project.org/en/latest/);
+- [Python](https://www.python.org/downloads/) (3.14), [PDM](https://pdm-project.org/en/latest/);
   - Do not Python from Microsoft Store;
 - (optional) [NSIS](https://nsis.sourceforge.io/Download), [UPX](https://upx.github.io/).
 
 **Linux**:
 - [Just](https://github.com/casey/just);
-- Python (3.13+), [PDM](https://pdm-project.org/en/latest/);
+- Python (3.14), [PDM](https://pdm-project.org/en/latest/);
 - Qt 6.0+ development tools, at least Linguist's `lrelease`.
 
 **macOS** (experimental, tested only on Intel-based macOS):
-- [Python](https://www.python.org/downloads/) (3.13+), [PDM](https://pdm-project.org/en/latest/);
+- [Python](https://www.python.org/downloads/) (3.14), [PDM](https://pdm-project.org/en/latest/);
   - PDM with python from website can be added via `pip3 install -U pipx && python3 -m pipx install pdm && python3 -m pipx ensurepath`;
   - For now, if using python from homebrew, you must symlink it to `python` since scripts doesn't use `python3` command;
 - [Just](https://github.com/casey/just) (`brew install just`);
@@ -166,9 +166,12 @@ Build from sources
 
 ### Prepare environment
 
-1. Obtain dependencies: `pdm install`;
-2. Try to run it: `just start`;
-3. Make release binary:
+1. Get the sources together with the `vendor/librebuds` submodule:
+   `git clone --recursive https://github.com/librebuds/librebuds-windows.git`,
+   or run `git submodule update --init` in an existing checkout;
+2. Obtain dependencies: `pdm install`;
+3. Try to run it: `just start`;
+4. Make release binary:
   - Windows: `just win32`;
   - Linux: `just debian fedora`;
   - macOS: `just macos`.
