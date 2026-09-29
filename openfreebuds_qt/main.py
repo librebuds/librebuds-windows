@@ -195,7 +195,9 @@ class OfbQtApplication(IOfbQtApplication):
 
     async def _stage_shortcut(self):
         if self.ofb.role == "standalone":
-            await self.restore_device()
+            if not await self.restore_device():
+                log.error("Shortcut skipped: no device could be started")
+                return self._exit(1)
             while await self.ofb.get_state() != IOpenFreebuds.STATE_CONNECTED:
                 log.debug("Waiting for device connect…")
                 await asyncio.sleep(1)
@@ -203,14 +205,29 @@ class OfbQtApplication(IOfbQtApplication):
         await self.ofb.run_shortcut(self.args.shortcut)
         self._exit(0)
 
-    async def restore_device(self):
+    async def restore_device(self) -> bool:
+        """
+        Start the saved device. Returns True when a driver was started. A start
+        failure (for example earbuds away while probing an unknown name) is
+        logged and never stops the app from booting.
+        """
         if self.args.virtual_device:
-            return
+            return True
         name = self.config.get("device", "name", None)
         address = self.config.get('device', "address", None)
-        if address is not None:
-            log.info(f"Restore device name={name}, address={address}")
-            await self.ofb.start(name, address)
+        if address is None:
+            return False
+        log.info(f"Restore device name={name}, address={address}")
+        try:
+            profile_name = await self.ofb.start(name, address)
+        except Exception:
+            log.exception("Can't restore saved device, continue without it")
+            return False
+        if isinstance(profile_name, str) and profile_name and profile_name != name:
+            # LibreBuds: an older config holds the raw Bluetooth name; keep the detected profile.
+            self.config.set_device_data(profile_name, address)
+            self.config.save()
+        return True
 
     def exec_async(self):
         self.event_loop.create_task(self.boot())

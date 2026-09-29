@@ -6,6 +6,17 @@ from openfreebuds import IOpenFreebuds
 from openfreebuds_cmd.utils import to_fixed
 
 
+def _json_dict(value):
+    """Parse a JSON object property; None for anything else (flags, MACs, bad JSON)."""
+    if not isinstance(value, str):
+        return None
+    try:
+        parsed = json.loads(value)
+    except ValueError:
+        return None
+    return parsed if isinstance(parsed, dict) else None
+
+
 class OpenFreebudsCmd(PromptToolkitCmd):
     manager: IOpenFreebuds = None
 
@@ -48,9 +59,9 @@ class OpenFreebudsCmd(PromptToolkitCmd):
                     print("  ", prop)
                     for opt in store[group][prop].split(","):
                         print("    - ", opt)
-                elif group == "dual_connect" and prop not in ["enabled", "preferred_device"]:
+                elif group == "dual_connect" and isinstance(_json_dict(store[group][prop]), dict):
                     print("  ", prop)
-                    for key, value in json.loads(store[group][prop]).items():
+                    for key, value in _json_dict(store[group][prop]).items():
                         print("    - ", to_fixed(key, 15), value)
                 else:
                     print("  ", to_fixed(prop, 30),

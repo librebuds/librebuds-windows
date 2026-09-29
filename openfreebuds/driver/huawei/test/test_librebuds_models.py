@@ -111,3 +111,15 @@ def test_unknown_model_code():
     assert driver_for_model_code("NOPE") is None
     assert driver_for_model_code(None) is None
     assert driver_for_model_code("") is None
+
+
+def test_dual_connect_refuses_auto_connect_when_off():
+    async def run():
+        h = OfbHuaweiDualConnectNoUnpairHandler(w_auto_connect=False)
+        h.driver = _FakeDriver()
+        for value in ("true", "false"):
+            with pytest.raises(OfbNotSupportedError):
+                await h.set_property("dual_connect", "001122334455:auto_connect", value)
+        assert h.driver.sent == []
+
+    asyncio.run(run())

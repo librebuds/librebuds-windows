@@ -55,17 +55,26 @@ class OfbManager(IOpenFreebuds):
 
     @rpc
     async def start(self, device_name: str, device_address: str):
+        """
+        Start the driver for a device. Returns the profile name in use: the
+        given name when it is a known profile, otherwise (LibreBuds) the
+        profile detected from the model code the earbuds report. Callers
+        should save the returned name so later starts need no probe.
+        """
         await self.stop()
+        profile_name = device_name
         driver_cls = DEVICE_TO_DRIVER_MAP.get(device_name)
         if driver_cls is None:
             driver_cls = await self._probe_model(device_address)
-        if driver_cls is None:
+            profile_name = _profile_name_for_driver(driver_cls)
+        if driver_cls is None or profile_name is None:
             raise OfbNotSupportedError(f"Unknown device {device_name}")
 
         self._driver = driver_cls(device_address)
         self.include_subscription("inner_driver", self._driver.changes)
         self._task = asyncio.create_task(self._mainloop())
-        self._device_tags = device_name, device_address
+        self._device_tags = profile_name, device_address
+        return profile_name
 
     async def _probe_model(self, address: str):
         """
@@ -223,3 +232,13 @@ class OfbManager(IOpenFreebuds):
 
         self._state = new_state
         await self.send_message(OfbEventKind.STATE_CHANGED, new_state)
+
+
+def _profile_name_for_driver(driver_cls):
+    """First DEVICE_TO_DRIVER_MAP key that uses this driver class, or None."""
+    if driver_cls is None:
+        return None
+    for name, cls in DEVICE_TO_DRIVER_MAP.items():
+        if cls is driver_cls:
+            return name
+    return None

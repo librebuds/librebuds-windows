@@ -98,7 +98,7 @@ def test_start_unknown_name_uses_probed_driver(monkeypatch):
         await asyncio.sleep(0)
         try:
             assert isinstance(m._driver, OfbDriverHuawei6)
-            assert await m.get_device_tags() == ("Some Headset", "00:11:22:33:44:55")
+            assert await m.get_device_tags() == ("HUAWEI FreeBuds 6", "00:11:22:33:44:55")
         finally:
             await m.stop()
 
@@ -110,3 +110,37 @@ def test_remote_error_keeps_class_name():
 
     e = RemoteError({"trace": "", "args": ["Unknown device"], "class": "OfbNotSupportedError"})
     assert e.rpc_class == "OfbNotSupportedError"
+
+
+def test_start_returns_detected_profile_name(monkeypatch):
+    async def probed(self, address):
+        return OfbDriverHuawei6
+
+    async def idle_mainloop(self):
+        pass
+
+    monkeypatch.setattr(OfbManager, "_probe_model", probed)
+    monkeypatch.setattr(OfbManager, "_mainloop", idle_mainloop)
+
+    async def run():
+        m = OfbManager()
+        assert await m.start("Some Headset", "00:11:22:33:44:55") == "HUAWEI FreeBuds 6"
+        await asyncio.sleep(0)
+        assert await m.get_device_tags() == ("HUAWEI FreeBuds 6", "00:11:22:33:44:55")
+        await m.stop()
+        # A known profile name is used as is, without a probe.
+        monkeypatch.setattr(OfbManager, "_probe_model", None)
+        assert await m.start("HUAWEI FreeBuds 5", "00:11:22:33:44:55") == "HUAWEI FreeBuds 5"
+        await asyncio.sleep(0)
+        await m.stop()
+
+    asyncio.run(run())
+
+
+def test_profile_name_for_driver():
+    from openfreebuds.driver.huawei.driver.per_model import OfbDriverHuaweiPro3
+    from openfreebuds.manager.main import _profile_name_for_driver
+
+    assert _profile_name_for_driver(OfbDriverHuaweiPro3) == "HUAWEI FreeBuds Pro 3"
+    assert _profile_name_for_driver(OfbDriverHuawei6) == "HUAWEI FreeBuds 6"
+    assert _profile_name_for_driver(None) is None

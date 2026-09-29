@@ -7,6 +7,7 @@ from qasync import asyncSlot
 
 from openfreebuds import is_device_supported, OfbEventKind
 from openfreebuds.exceptions import OfbNotSupportedError
+from openfreebuds.utils.logger import create_logger
 from openfreebuds.utils.stupid_rpc import RemoteError
 from openfreebuds_backend import bt_list_devices
 from openfreebuds_qt.utils.device_auto_select import OfbQtDeviceAutoSelect
@@ -18,6 +19,8 @@ from openfreebuds_qt.utils.qt_utils import qt_error_handler
 from openfreebuds_qt.config.main import OfbQtConfigParser
 from openfreebuds_qt.designer.module_device_select import Ui_OfbQtDeviceSelectModule
 
+log = create_logger("OfbQtChooseDeviceModule")
+
 
 class OfbQtChooseDeviceModule(Ui_OfbQtDeviceSelectModule, OfbQtCommonModule):
     def __init__(self, *args, **kwargs):
@@ -26,6 +29,7 @@ class OfbQtChooseDeviceModule(Ui_OfbQtDeviceSelectModule, OfbQtCommonModule):
         self.setupUi(self)
 
         self._connect_task: Optional[asyncio.Task] = None
+        self._select_busy: bool = False
 
     async def update_ui(self, event: OfbCoreEvent):
         async with qt_error_handler("OfbQtChooseDeviceModule_UpdateUi", self.ctx):
@@ -57,13 +61,24 @@ class OfbQtChooseDeviceModule(Ui_OfbQtDeviceSelectModule, OfbQtCommonModule):
     async def on_device_select(self, item: QListWidgetItem):
         async with qt_error_handler("OfbQtChooseDeviceModule_SelectDevice", self.ctx):
             address = item.data(Qt.ItemDataRole.UserRole)
-            name = item.text()
+            await self._select_device(item.text(), address)
 
+    async def _select_device(self, name: str, address: str):
+        # LibreBuds: one selection at a time, so two probes never compete for
+        # the single RFCOMM socket Windows allows per service.
+        if self._select_busy:
+            log.info("Device selection already running, ignoring")
+            return
+        self._select_busy = True
+        self.paired_list.setEnabled(False)
+        try:
             if not is_device_supported(name):
-                # LibreBuds: the core probes the earbuds and picks a driver by the
-                # reported model code. Only when that fails, ask the user for a profile.
+                # The core probes the earbuds and picks a driver by the reported
+                # model code. Only when that fails, ask the user for a profile.
                 try:
-                    await self.ofb.start(name, address)
+                    profile_name = await self.ofb.start(name, address)
+                    if isinstance(profile_name, str) and profile_name:
+                        name = profile_name
                 except Exception as e:
                     if not _is_not_supported_error(e):
                         raise
@@ -79,10 +94,14 @@ class OfbQtChooseDeviceModule(Ui_OfbQtDeviceSelectModule, OfbQtCommonModule):
                 self._connect_task = asyncio.create_task(
                     self.ofb.start(name, address)
                 )
+            # Always a DEVICE_TO_DRIVER_MAP key, so later starts need no probe.
             self.config.set_device_data(name, address)
             self.config.save()
             await asyncio.sleep(0.5)
             await self._update_list()
+        finally:
+            self._select_busy = False
+            self.paired_list.setEnabled(True)
 
     @asyncSlot()
     async def on_manual_config(self):
