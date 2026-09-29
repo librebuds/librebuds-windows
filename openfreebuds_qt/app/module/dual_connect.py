@@ -31,6 +31,9 @@ class OfbQtDualConnectModule(Ui_OfbQtDualConnectModule, OfbQtCommonModule):
             if not data or "devices" not in data:
                 return
 
+            # LibreBuds: drivers that never send unpair publish unpair_supported=false
+            self.button_unpair.setVisible(data.get("unpair_supported") != "false")
+
             # Setup global toggle
             if event.is_changed("dual_connect", "enabled"):
                 with blocked_signals(self.global_toggle):
