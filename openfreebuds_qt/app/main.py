@@ -134,7 +134,7 @@ class OfbQtMainWindow(Ui_OfbMainWindowDesign, IOfbMainWindow):
         # noinspection PyUnresolvedReferences
         hide_action.triggered.connect(self.hide_or_exit)
 
-        exit_action = extra_menu.addAction(self.tr("Exit OpenFreebuds"))
+        exit_action = extra_menu.addAction(self.tr("Exit LibreBuds"))
         exit_action.setShortcut(QKeySequence('Ctrl+Q'))
         # noinspection PyUnresolvedReferences
         exit_action.triggered.connect(self.on_exit)

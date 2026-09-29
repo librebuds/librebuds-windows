@@ -37,7 +37,7 @@ class OfbQtLinuxExtrasModule(Ui_OfbQtLinuxExtrasModule, OfbQtCommonModule):
             QMessageBox(
                 QMessageBox.Icon.Information,
                 self.tr("Ensure bus access"),
-                self.tr("Looks like you're running under Flatpak. To use this feature, OpenFreebuds "
+                self.tr("Looks like you're running under Flatpak. To use this feature, LibreBuds "
                         "need to have access to entire session bus, otherwise it won't find any "
                         "working media players. Ensure that you're granted this permission, "
                         "refer to FAQ for more details."),

@@ -30,7 +30,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Here you can configure system-wide keyboard shortcuts for OpenFreebuds</string>
+      <string>Here you can configure system-wide keyboard shortcuts for LibreBuds</string>
      </property>
     </widget>
    </item>

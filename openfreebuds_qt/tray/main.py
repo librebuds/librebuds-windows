@@ -107,9 +107,9 @@ class OfbTrayIcon(IOfbTrayIcon):
         if state == IOpenFreebuds.STATE_CONNECTED:
             self.setToolTip(await self._get_tooltip_text(event))
         elif state == IOpenFreebuds.STATE_WAIT:
-            self.setToolTip(self.tr("OpenFreebuds: Connecting to device…"))
+            self.setToolTip(self.tr("LibreBuds: Connecting to device…"))
         else:
-            self.setToolTip("OpenFreebuds")
+            self.setToolTip("LibreBuds")
 
         if state == IOpenFreebuds.STATE_CONNECTED:
             summary_shown = False

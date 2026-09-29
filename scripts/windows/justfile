@@ -9,8 +9,8 @@ win32_installer: build
     New-Item -ItemType Directory -Force -Path {{ nsis_builddir }}
     cd ./scripts/windows; & 'C:\Program Files (x86)\NSIS\Bin\makensis.exe' openfreebuds.nsi
     mv -Force \
-        {{ nsis_builddir }}/openfreebuds.install.exe \
-        ./dist/openfreebuds_{{version}}_{{arch()}}_windows.exe
+        {{ nsis_builddir }}/librebuds.install.exe \
+        ./dist/librebuds_{{version}}_{{arch()}}_windows.exe
 
 # Make windows portable executable
 [group("os_windows"),windows]
@@ -19,8 +19,8 @@ win32_portable:
     New-Item -ItemType Directory -Force -Path {{ nsis_builddir }}
     cd ./scripts/windows; & {{pyinstaller}} openfreebuds_portable.spec
     mv -Force \
-        {{ pyinstaller_distdir }}/openfreebuds_portable.exe \
-        ./dist/openfreebuds_{{version}}_{{arch()}}_windows_portable.exe
+        {{ pyinstaller_distdir }}/librebuds_portable.exe \
+        ./dist/librebuds_{{version}}_{{arch()}}_windows_portable.exe
 
 # Make windows installer and portable
 [group("os_windows"),windows,linux]

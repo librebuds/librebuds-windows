@@ -11,10 +11,10 @@ IGNORED_LOG_TAGS = [
     "PIL.PngImagePlugin",
 ]
 
-LINK_WEBSITE = "https://mmk.pw/en/openfreebuds/"
-LINK_WEBSITE_HELP = "https://mmk.pw/en/openfreebuds/help"
-LINK_GITHUB = "https://github.com/melianmiko/OpenFreebuds/"
-LINK_RPC_HELP = "http://localhost:19823/"
+LINK_WEBSITE = "https://github.com/librebuds/librebuds-windows"
+LINK_WEBSITE_HELP = "https://github.com/librebuds/librebuds-windows"
+LINK_GITHUB = "https://github.com/librebuds/librebuds-windows"
+LINK_RPC_HELP = "https://github.com/librebuds/librebuds-windows#remote-control"
 
 WIN32_BODY_STYLE = """
 QPushButton, 

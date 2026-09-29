@@ -62,7 +62,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>OpenFreebuds will automatically detect currently connected headset and switch to them.</string>
+         <string>LibreBuds will automatically detect currently connected headset and switch to them.</string>
         </property>
        </widget>
       </item>
@@ -115,7 +115,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>List bellow shows all Bluetooth devices paired with your device. Select appropriate device that you want to use with OpenFreebuds:</string>
+         <string>List bellow shows all Bluetooth devices paired with your device. Select appropriate device that you want to use with LibreBuds:</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

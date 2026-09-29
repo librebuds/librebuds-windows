@@ -65,7 +65,7 @@
             </font>
            </property>
            <property name="text">
-            <string notr="true">OpenFreebuds</string>
+            <string notr="true">LibreBuds for Windows</string>
            </property>
           </widget>
          </item>
@@ -120,7 +120,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;by melianmiko and &lt;a href=&quot;https://github.com/melianmiko/OpenFreebuds/graphs/contributors&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#3586ff;&quot;&gt;contributors&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Based on &lt;a href=&quot;https://github.com/melianmiko/OpenFreebuds&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#3586ff;&quot;&gt;OpenFreebuds&lt;/span&gt;&lt;/a&gt; by melianmiko and contributors (GPL-3.0)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>

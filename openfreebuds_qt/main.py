@@ -65,8 +65,8 @@ class OfbQtApplication(IOfbQtApplication):
         self.config.update_fallback_values(self)
 
         # Qt base configs
-        self.setApplicationName("OpenFreebuds")
-        self.setDesktopFileName("pw.mmk.OpenFreebuds")
+        self.setApplicationName("LibreBuds")
+        self.setDesktopFileName("io.github.librebuds.Windows")
 
         # Qt i18n
         locale = self._detect_locale()
@@ -231,7 +231,7 @@ class OfbQtApplication(IOfbQtApplication):
 
         QMessageBox(
             QMessageBox.Icon.Warning,
-            "OpenFreebuds",
+            "LibreBuds",
             paragraph_1 + "\n\n" + paragraph_2,
             QMessageBox.StandardButton.Ok,
             self.main_window
@@ -245,7 +245,7 @@ class OfbQtApplication(IOfbQtApplication):
                               "Default application settings was restored.")
         dialog = QMessageBox(
             QMessageBox.Icon.Warning,
-            "OpenFreebuds",
+            "LibreBuds",
             paragraph_1,
             QMessageBox.StandardButton.Ok,
             self.main_window
@@ -260,13 +260,13 @@ class OfbQtApplication(IOfbQtApplication):
             "You're running under older version of Qt than expected. "
             "It's strongly recommended to switch to Flatpak release, "
             "because older Qt version may fail your experience of using "
-            "OpenFreebuds.")
+            "LibreBuds.")
         paragraph_2 = self.tr("This warning will be shown only once. Please, "
                               "test Flatpak version before reporting bugs.")
 
         QMessageBox(
             QMessageBox.Icon.Warning,
-            "OpenFreebuds",
+            "LibreBuds",
             paragraph_1 + "\n\n" + paragraph_2,
             QMessageBox.StandardButton.Ok,
             self.main_window

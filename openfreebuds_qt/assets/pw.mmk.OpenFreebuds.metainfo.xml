@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>pw.mmk.OpenFreebuds</id>
 
-  <name>OpenFreebuds</name>
+  <name>LibreBuds</name>
   <summary>Companion app for HUAWEI earphones</summary>
   <developer id="pw.mmk">
     <name>MelianMiko</name>

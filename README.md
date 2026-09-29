@@ -1,16 +1,15 @@
 <div align="center">
 <img src="docs/logo.png" width="192px" alt="" />
-<h1>OpenFreebuds</h1>
+<h1>LibreBuds for Windows</h1>
 <p>Desktop application to manage wireless headphones from HUAWEI/Honor</p>
 <p>
-<img src="https://img.shields.io/github/v/release/melianmiko/openfreebuds" alt="Last release"/>
-<img src="https://img.shields.io/aur/last-modified/openfreebuds" alt="Last AUR release"/>
-<a href="https://github.com/melianmiko/OpenFreebuds/actions/workflows/on_push.yml">
-<img src="https://github.com/melianmiko/OpenFreebuds/actions/workflows/on_push.yml/badge.svg" alt="Test build status"/>
+<a href="https://github.com/librebuds/librebuds-windows/actions/workflows/on_push.yml">
+<img src="https://github.com/librebuds/librebuds-windows/actions/workflows/on_push.yml/badge.svg" alt="Test build status"/>
 </a>
 </p>
+<p>Based on <a href="https://github.com/melianmiko/OpenFreebuds">OpenFreebuds</a> by melianmiko and contributors (GPL-3.0).</p>
 <p>
-<a href="https://mmk.pw/en/openfreebuds"><b>💿 Download binaries</b></a> | <a href="https://mmk.pw/en/openfreebuds/help/"><b>❓ FAQ</b></a>
+<a href="https://github.com/librebuds/librebuds-windows/releases"><b>💿 Download binaries</b></a> | <a href="https://github.com/librebuds/librebuds-windows#remote-control"><b>❓ FAQ</b></a>
 </p>
 <p>
 <img alt="Tray menu preview" src="docs/preview_0.png" />
@@ -74,32 +73,18 @@ If your device isn't listed here, you could try to use it with profile for other
 - [HUAWEI FreeLace Pro](./docs/devices/HUAWEI_FreeLace_Pro.md)
 - [HUAWEI FreeLace Pro 2](./docs/devices/HUAWEI_FreeLace_Pro_2.md)
 
-May also work with newer/older devices in same series. If you want to get better compatibility of some model, you could [create Bluetooth traffic dump](https://mmk.pw/en/posts/ofb-contribution/) to help making OpenFreebuds better.
+May also work with newer/older devices in same series. If you want to get better compatibility of some model, you could [create Bluetooth traffic dump](https://mmk.pw/en/posts/ofb-contribution/) to help making LibreBuds better.
 
 Download & install
 -----------------
 
-Common installation options:
+LibreBuds for Windows is distributed from this repository's
+[GitHub Releases](https://github.com/librebuds/librebuds-windows/releases).
+It does not use the upstream OpenFreebuds package manager channels (Winget,
+Scoop, Flathub, APT, DNF, AUR, NixPkgs) or update server; those install the
+upstream OpenFreebuds application instead.
 
-[![Download for Windows](./docs/img/windows.png)](https://mmk.pw/en/openfreebuds/download/)
-[![Available in FlatHub](./docs/img/flathub.png)](https://flathub.org/apps/pw.mmk.OpenFreebuds)
-
-All installation options:
-
-| Platform                                   | Package manager                                                                            | Command / Link                                                                               |
-|--------------------------------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| ![](./docs/img/i_win32.png) Windows        | Direct install                                                                             | [Website](https://mmk.pw/en/openfreebuds/download) or [releases](./releases)                 |
-| ![](./docs/img/i_win32.png) Windows¹       | [Winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) (preinstalled) | <pre>winget install MelianMiko.OpenFreebuds</pre>                                            |
-| ![](./docs/img/i_win32.png) Windows¹       | [Scoop](https://scoop.sh/)                                                                 | <pre>scoop bucket add extras<br/>scoop install openfreebuds</pre>                            |
-| ![](./docs/img/i_linux.png) Any linux      | [Flathub](https://flathub.org/apps/pw.mmk.OpenFreebuds)                       | <pre>flatpak install pw.mmk.OpenFreebuds</pre>                                               |
-| ![](./docs/img/i_debian.png) Debian/Ubuntu | APT                                                                                        | <pre>curl -s https://st.mmk.pw/debiansetup \| sudo bash -<br/>sudo apt install openfreebuds</pre> |
-| ![](./docs/img/i_fedora.png) Fedora | DNF | <pre>sudo dnf config-manager addrepo \\<br/>    --from-repofile https://st.mmk.pw/melianmiko.repo<br/>sudo dnf install openfreebuds</pre> |
-| ![](./docs/img/i_arch.png) ArchLinux       | [Yay](https://github.com/Jguer/yay) for AUR                                                | <pre>yay -S openfreebuds</pre>                                                               |
-| ![](./docs/img/i_nix.png) NixOS¹ 25.11+    | NixPkgs                                                                                    | [openfreebuds](https://search.nixos.org/packages?channel=unstable&query=openfreebuds)        |
-
-Most recent `dev`-binaries can be found as [GitHub Actions](https://github.com/melianmiko/OpenFreebuds/actions/workflows/on_push.yml) build artifacts.
-
-> ¹community-maintained
+Most recent `dev`-binaries can be found as [GitHub Actions](https://github.com/librebuds/librebuds-windows/actions/workflows/on_push.yml) build artifacts.
 
 Build from sources
 -------------

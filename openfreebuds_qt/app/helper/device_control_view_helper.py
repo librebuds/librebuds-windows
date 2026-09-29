@@ -71,7 +71,7 @@ class OfbQtDeviceControlViewHelper:
             self.ui.control_root.setVisible(visible)
             force_render = True
 
-            title = "OpenFreebuds"
+            title = "LibreBuds"
             if visible:
                 title, _ = await self.ofb.get_device_tags()
             elif state == IOpenFreebuds.STATE_WAIT:

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">OpenFreebuds</string>
+   <string notr="true">LibreBuds</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

@@ -2,11 +2,11 @@
 !include "x64.nsh"
 !include "FileFunc.nsh"
 
-!define APP_NAME "OpenFreebuds"
+!define APP_NAME "LibreBuds"
 !define APP_VERSION "0.18.1"
-!define APP_DEVELOPER "MelianMiko"
-!define APP_BUILD_NAME "openfreebuds"
-!define APP_EXE "openfreebuds.exe"
+!define APP_DEVELOPER "LibreBuds"
+!define APP_BUILD_NAME "librebuds"
+!define APP_EXE "librebuds.exe"
 !define REG_KEY
 
 Name "${APP_NAME}"
@@ -48,7 +48,7 @@ RequestExecutionLevel admin
 Section "Dummy Section" SecDummy
 
     ; Kill running process
-    nsExec::ExecToStack "C:\Windows\System32\taskkill.exe /f /im:openfreebuds.exe"
+    nsExec::ExecToStack "C:\Windows\System32\taskkill.exe /f /im:${APP_EXE}"
 
 	; Copy files
 	SetOutPath "$INSTDIR"
@@ -65,9 +65,9 @@ Section "Dummy Section" SecDummy
 	;Store installation folder
 	WriteRegStr HKCU "Software\${APP_DEVELOPER} ${APP_NAME}" "" $INSTDIR
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}_APP" \
-			"DisplayIcon" "$INSTDIR\openfreebuds.exe"
+			"DisplayIcon" "$INSTDIR\${APP_EXE}"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}_APP" \
-			"DisplayName" "OpenFreebuds"
+			"DisplayName" "${APP_NAME}"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}_APP" \
 			"DisplayVersion" "${APP_VERSION}"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}_APP" \ 
@@ -97,7 +97,7 @@ SectionEnd
 Section "Uninstall"
 
     ; Kill running process
-    nsExec::ExecToStack "C:\Windows\System32\taskkill.exe /f /im:openfreebuds.exe"
+    nsExec::ExecToStack "C:\Windows\System32\taskkill.exe /f /im:${APP_EXE}"
 
 	; Delete all
 	Delete "$INSTDIR\Uninstall.exe"

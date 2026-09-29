@@ -20,13 +20,13 @@ class DBusConfigLock:
 
         # noinspection PyUnresolvedReferences
         for name in await dbus.call_list_names():
-            if name == "pw.mmk.OpenFreebuds":
+            if name == "io.github.librebuds.Windows":
                 bus.disconnect()
                 return False
 
         # Provide void DBus service
-        interface = ServiceInterface('pw.mmk.OpenFreebuds')
+        interface = ServiceInterface('io.github.librebuds.Windows')
         bus.export('/com/example/sample0', interface)
-        await bus.request_name('pw.mmk.OpenFreebuds')
+        await bus.request_name('io.github.librebuds.Windows')
 
         return True

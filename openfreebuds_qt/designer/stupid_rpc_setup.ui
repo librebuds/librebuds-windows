@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Change this settings only if you know what you're doing. Require restart of all OpenFreebuds instances and all clients.</string>
+      <string>Change this settings only if you know what you're doing. Require restart of all LibreBuds instances and all clients.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -33,7 +33,7 @@
    <item>
     <widget class="QCheckBox" name="cb_remote_access">
      <property name="text">
-      <string>Allow controlling OpenFreebuds through network</string>
+      <string>Allow controlling LibreBuds through network</string>
      </property>
     </widget>
    </item>

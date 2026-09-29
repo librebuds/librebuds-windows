@@ -34,7 +34,7 @@ win32_installer: build
     mkdir -p ./dist {{ nsis_builddir }}
     cd ./scripts/windows && {{ wine }} {{pyinstaller}} -y openfreebuds.spec
     cd ./scripts/windows && makensis openfreebuds.nsi
-    mv {{ nsis_builddir }}/openfreebuds.install.exe ./dist/openfreebuds_{{version}}_`just get_winearch2`_windows.exe
+    mv {{ nsis_builddir }}/librebuds.install.exe ./dist/librebuds_{{version}}_`just get_winearch2`_windows.exe
 
 # Make windows installer
 [group("os_windows"),linux]
@@ -43,7 +43,7 @@ win32_portable: build
     [ ! -f build/enable_cc ] && exit 1 || true
     mkdir -p ./dist
     cd ./scripts/windows && {{ wine }} {{pyinstaller}} -y openfreebuds_portable.spec
-    mv {{ pyinstaller_distdir }}/openfreebuds_portable.exe ./dist/openfreebuds_{{version}}_`just get_winearch2`_windows_portable.exe
+    mv {{ pyinstaller_distdir }}/librebuds_portable.exe ./dist/librebuds_{{version}}_`just get_winearch2`_windows_portable.exe
 
 # Wrapper for wine-arm64 environment
 [group("os_windows"),linux,private]

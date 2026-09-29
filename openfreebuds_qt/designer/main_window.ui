@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">OpenFreebuds</string>
+   <string notr="true">LibreBuds</string>
   </property>
   <property name="styleSheet">
    <string notr="true">#side_panel, #side_panel_content, #tabs_list_content {
@@ -164,7 +164,7 @@
               </font>
              </property>
              <property name="text">
-              <string notr="true">OpenFreebuds</string>
+              <string notr="true">LibreBuds</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
@@ -802,7 +802,7 @@
               </font>
              </property>
              <property name="text">
-              <string notr="true">OpenFreebuds v99</string>
+              <string notr="true">LibreBuds v99</string>
              </property>
             </widget>
            </item>

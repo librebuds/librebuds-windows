@@ -29,7 +29,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='openfreebuds',
+    name='librebuds',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -40,7 +40,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['.\\pw.mmk.OpenFreebuds.ico'],
+    icon=['.\\librebuds.ico'],
 )
 coll = COLLECT(
     exe,
@@ -50,5 +50,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='openfreebuds',
+    name='librebuds',
 )

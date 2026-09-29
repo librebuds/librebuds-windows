@@ -70,7 +70,7 @@ class LowBatteryOverlay(QWidget):
         layout.setContentsMargins(14, 10, 14, 10)
         layout.setSpacing(7)
 
-        title = QLabel(device_name or "OpenFreebuds", frame)
+        title = QLabel(device_name or "LibreBuds", frame)
         title.setProperty("role", "title")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setMaximumHeight(18)

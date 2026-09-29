@@ -20,13 +20,13 @@ REPORT_HEADER = """
   |_____|  _|___|_|_|__|  |_| |___|___|___|___|___|___|
         |_|                                            
 """
-REPORT_CONTACT_DATA = "E-Mail: support@mmk.pw  -or-  Web: https://mmk.pw/en/mailto"
+REPORT_CONTACT_DATA = "https://github.com/librebuds/librebuds-windows/issues"
 REPORT_INTRO_DEFAULT = """
 If you feel that something don't work as expected, please,
     save this file somewhere and send it to developer.
 """
 REPORT_INTRO_CRASH = """
-         OpenFreebuds crashed due to unknown error.
+         LibreBuds crashed due to unknown error.
 
   If you don't know why this happened, you could try to
    send this log to developer, and they will try to do
@@ -82,7 +82,7 @@ class OfbQtReportTool:
     async def create_and_show(self):
         await self.create_report()
 
-        path = STORAGE_PATH / ".OpenFreebuds_report.log"
+        path = STORAGE_PATH / ".LibreBuds_report.log"
         with open(path, "w") as f:
             f.write(self.content)
         openfreebuds_backend.open_file(path)

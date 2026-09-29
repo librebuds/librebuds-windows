@@ -147,7 +147,7 @@
          <item>
           <widget class="QCheckBox" name="autostart_checkbox">
            <property name="text">
-            <string>Launch OpenFreebuds at system boot</string>
+            <string>Launch LibreBuds at system boot</string>
            </property>
            <property name="checked">
             <bool>true</bool>

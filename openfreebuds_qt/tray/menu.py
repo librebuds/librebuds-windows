@@ -41,7 +41,7 @@ class OfbQtTrayMenu(OfbQtTrayMenuCommon):
         }
 
         # Header items
-        self.device_name_action = self.add_item("OpenFreebuds",
+        self.device_name_action = self.add_item("LibreBuds",
                                                 visible=False,
                                                 enabled=False)
         self.disconnect_action = self.add_item(text=self.tr("Disconnect"),

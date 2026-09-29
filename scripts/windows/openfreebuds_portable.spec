@@ -26,7 +26,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='openfreebuds_portable',
+    name='librebuds_portable',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -39,5 +39,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['.\\pw.mmk.OpenFreebuds.ico'],
+    icon=['.\\librebuds.ico'],
 )

@@ -6,7 +6,7 @@ from openfreebuds_qt.version_info import VERSION
 parser = ArgumentParser(
     prog="openfreebuds_qt",
     description="Client application for HUAWEI Bluetooth headphones",
-    epilog=f"by melianmiko | mmk.pw | {VERSION}"
+    epilog=f"LibreBuds for Windows | based on OpenFreebuds | {VERSION}"
 )
 parser.add_argument("-v", "--verbose",
                     action="store_true",
@@ -24,7 +24,7 @@ parser.add_argument('--virtual-device',
                     help="Use virtual debug device, for UI testing")
 parser.add_argument("shortcut",
                     nargs="?", default="",
-                    help="Execute shortcut operation in using OpenFreebuds")
+                    help="Execute shortcut operation in using LibreBuds")
 
 
 def main():
