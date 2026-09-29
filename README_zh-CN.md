@@ -1,3 +1,5 @@
+> This translation describes upstream OpenFreebuds and may be out of date. For LibreBuds for Windows, see the [English README](./README.md).
+
 <div align="center">
 <img src="docs/logo.png" width="192px" alt="" />
 <h1>OpenFreebuds</h1>
@@ -10,7 +12,7 @@
 </a>
 </p>
 <p>
-<a href="https://mmk.pw/en/openfreebuds"><b>💿 下载安装包</b></a> | <a href="https://mmk.pw/en/openfreebuds/help/"><b>❓ 常见问题</b></a>
+<a href="https://github.com/librebuds/librebuds-windows/releases"><b>💿 下载安装包</b></a> | <a href="https://github.com/librebuds/librebuds-windows/issues"><b>❓ 常见问题</b></a>
 </p>
 <p>
 <img alt="Tray menu preview" src="docs/preview_0.png" />
@@ -54,25 +56,24 @@ OpenFreebuds 让你在 PC 上直接控制华为 FreeBuds 等无线耳机的各�
 - [HUAWEI FreeLace Pro](./docs/devices/HUAWEI_FreeLace_Pro.md)
 - [HUAWEI FreeLace Pro 2](./docs/devices/HUAWEI_FreeLace_Pro_2.md)
 
-较新或较旧的同系列设备也可能正常工作。如果你希望改善某个型号的兼容性，可以[抓取蓝牙通信数据](https://mmk.pw/en/posts/ofb-contribution/)来帮助改进 OpenFreebuds。
+较新或较旧的同系列设备也可能正常工作。如果你希望改善某个型号的兼容性，可以[抓取蓝牙通信数据](https://github.com/librebuds/librebuds-windows/issues)来帮助改进 OpenFreebuds。
 
 下载与安装
 -----------------
 
 通用安装方式：
 
-[![Download for Windows](./docs/img/windows.png)](https://mmk.pw/en/openfreebuds/download/)
+[![Download for Windows](./docs/img/windows.png)](https://github.com/librebuds/librebuds-windows/releases)
 [![Available in FlatHub](./docs/img/flathub.png)](https://flathub.org/apps/pw.mmk.OpenFreebuds)
 
 完整安装选项：
 
 | 平台                                       | 包管理器                                                                                  | 命令 / 链接                                                                                  |
 |--------------------------------------------|------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| ![](./docs/img/i_win32.png) Windows        | 直接安装                                                                                 | [官网](https://mmk.pw/en/openfreebuds/download) 或 [Releases](./releases)                   |
+| ![](./docs/img/i_win32.png) Windows        | 直接安装                                                                                 | [Releases](https://github.com/librebuds/librebuds-windows/releases) |
 | ![](./docs/img/i_win32.png) Windows¹       | [Winget](https://learn.microsoft.com/zh-cn/windows/package-manager/winget/)（系统内置）   | <pre>winget install MelianMiko.OpenFreebuds</pre>                                            |
 | ![](./docs/img/i_win32.png) Windows¹       | [Scoop](https://scoop.sh/)                                                               | <pre>scoop bucket add extras<br/>scoop install openfreebuds</pre>                           |
 | ![](./docs/img/i_linux.png) Any linux      | [Flathub 可用](https://flathub.org/apps/pw.mmk.OpenFreebuds)                             | <pre>flatpak install pw.mmk.OpenFreebuds</pre>                                               |
-| ![](./docs/img/i_debian.png) Debian/Ubuntu | APT                                                                                      | <pre>curl -s https://deb.mmk.pw/setup \| sudo bash -<br/>sudo apt install openfreebuds</pre> |
 | ![](./docs/img/i_arch.png) ArchLinux       | [Yay](https://github.com/Jguer/yay) (AUR)                                                | <pre>yay -S openfreebuds</pre>                                                               |
 | ![](./docs/img/i_nix.png) NixOS¹ 25.11+    | NixPkgs                                                                                  | [openfreebuds](https://search.nixos.org/packages?channel=unstable&query=openfreebuds)        |
 

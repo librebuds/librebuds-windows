@@ -22,7 +22,7 @@ Control HUAWEI FreeBuds from Windows and Linux: battery, noise control and more.
 
 - FreeBuds 4, FreeBuds 5 and FreeBuds 6 drivers;
 - Model-code detection: when the earbuds' Bluetooth name is not recognized (for example renamed earbuds), the app connects with an info-only probe, reads the model code the earbuds report, and picks the matching driver;
-- Test vectors shared with the LibreBuds Android project, replayed against the new drivers;
+- Test vectors shared with the LibreBuds Android project, decoded by the packet parser (the drivers themselves are not exercised by these vectors);
 - No upstream self-updater; updates are distributed as GitHub releases of this repository instead;
 - Multipoint connect and disconnect on the new drivers (unpair is not implemented).
 
@@ -105,15 +105,21 @@ If your device isn't listed here, you could try to use it with profile for other
   - **HONOR Earbuds 2 / 2 SE / 2 Lite** is same
 - HUAWEI FreeBuds 5 (LibreBuds): reading battery, noise control, gestures,
   auto pause, equalizer presets and multipoint status is confirmed on
-  hardware; changing noise control and multipoint (connect, disconnect,
-  preferred device, no unpair) is also confirmed on hardware; changing other
-  settings is not yet confirmed on hardware
+  hardware. The only writes confirmed on hardware are switching the noise
+  control mode and multipoint connect and disconnect. Changing the preferred
+  device, noise cancellation level, gestures, auto pause, equalizer preset
+  selection and multipoint on/off is not yet confirmed. Custom equalizer
+  presets and auto-connect are not offered on this model, and unpairing a
+  host is not supported
 - [HUAWEI FreeBuds 5i](./docs/devices/HUAWEI_FreeBuds_5i.md)
 - HUAWEI FreeBuds 6 (LibreBuds): reading battery, noise control, gestures,
   auto pause, equalizer presets and multipoint status is confirmed on
-  hardware; changing noise control and multipoint (connect, disconnect,
-  preferred device, no unpair) is also confirmed on hardware; changing other
-  settings is not yet confirmed on hardware
+  hardware. The only writes confirmed on hardware are switching the noise
+  control mode and multipoint connect and disconnect. Changing the preferred
+  device, noise cancellation level, gestures, auto pause, equalizer preset
+  selection and multipoint on/off is not yet confirmed. Custom equalizer
+  presets and auto-connect are not offered on this model, and unpairing a
+  host is not supported
 - [HUAWEI FreeBuds 6i](./docs/devices/HUAWEI_FreeBuds_6i.md)
 - [HUAWEI FreeBuds Pro](./docs/devices/HUAWEI_FreeBuds_Pro.md)
 - [HUAWEI FreeBuds Pro 2](./docs/devices/HUAWEI_FreeBuds_Pro_2.md)
@@ -128,7 +134,7 @@ If your device isn't listed here, you could try to use it with profile for other
 - [HUAWEI FreeLace Pro](./docs/devices/HUAWEI_FreeLace_Pro.md)
 - [HUAWEI FreeLace Pro 2](./docs/devices/HUAWEI_FreeLace_Pro_2.md)
 
-May also work with newer/older devices in same series. If you want to get better compatibility of some model, you could [create Bluetooth traffic dump](https://mmk.pw/en/posts/ofb-contribution/) to help making LibreBuds better.
+May also work with newer/older devices in same series. If you want to get better compatibility of some model, you could share a Bluetooth traffic capture in [this repository's issues](https://github.com/librebuds/librebuds-windows/issues) to help making LibreBuds better. The capture approach comes from the upstream OpenFreebuds project.
 
 Download & install
 -----------------
