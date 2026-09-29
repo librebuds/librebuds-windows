@@ -56,13 +56,54 @@ class OfbManager(IOpenFreebuds):
     @rpc
     async def start(self, device_name: str, device_address: str):
         await self.stop()
-        if device_name not in DEVICE_TO_DRIVER_MAP:
+        driver_cls = DEVICE_TO_DRIVER_MAP.get(device_name)
+        if driver_cls is None:
+            driver_cls = await self._probe_model(device_address)
+        if driver_cls is None:
             raise OfbNotSupportedError(f"Unknown device {device_name}")
 
-        self._driver = DEVICE_TO_DRIVER_MAP[device_name](device_address)
+        self._driver = driver_cls(device_address)
         self.include_subscription("inner_driver", self._driver.changes)
         self._task = asyncio.create_task(self._mainloop())
         self._device_tags = device_name, device_address
+
+    async def _probe_model(self, address: str):
+        """
+        LibreBuds: connect with an info-only driver and choose a driver by the
+        model code the earbuds report. Never raises; returns None when the
+        probe fails or the code is unknown.
+        """
+        from openfreebuds.driver.huawei.driver.generic import OfbDriverHuaweiGeneric
+        from openfreebuds.driver.huawei.handler import OfbHuaweiInfoHandler
+        from openfreebuds.driver.huawei.model_codes import driver_for_model_code
+
+        probe = OfbDriverHuaweiGeneric(address)
+        # SPEC-GAP: RFCOMM channel not confirmed for every model; channel 1 matches the known ones.
+        probe._spp_service_port = 1
+        probe.handlers = [OfbHuaweiInfoHandler()]
+        code = None
+        writer = None
+        try:
+            await asyncio.wait_for(probe.start(), timeout=10)
+            writer = probe._writer
+            code = await probe.get_property("info", "device_model", None)
+        except Exception as e:
+            log.info(f"Model probe failed: {e}")
+        finally:
+            writer = writer or probe._writer
+            with suppress(Exception):
+                await probe.stop()
+            # Windows allows one RFCOMM socket per service per host, so the probe
+            # socket must be fully closed before the real driver connects.
+            if writer is not None:
+                with suppress(Exception):
+                    writer.close()
+                    await asyncio.wait_for(writer.wait_closed(), timeout=2)
+                await asyncio.sleep(0.5)
+
+        driver_cls = driver_for_model_code(code)
+        log.info(f"Model probe: code={code}, driver={driver_cls.__name__ if driver_cls else None}")
+        return driver_cls
 
     @rpc
     async def destroy(self):

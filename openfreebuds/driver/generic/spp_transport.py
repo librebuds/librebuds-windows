@@ -19,11 +19,16 @@ class _BluetoothSocketTransport:
 
     async def open(self, address, channel, *, connect_delay=0):
         sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
-        sock.settimeout(2)
-        if connect_delay:
-            await asyncio.sleep(connect_delay)
-        sock.connect((address, channel))
-        return await asyncio.open_connection(sock=sock)
+        try:
+            sock.settimeout(2)
+            if connect_delay:
+                await asyncio.sleep(connect_delay)
+            sock.connect((address, channel))
+            return await asyncio.open_connection(sock=sock)
+        except BaseException:
+            # Release the RFCOMM socket at once; Windows allows only one per service per host.
+            sock.close()
+            raise
 
 
 def get_default_transport() -> SppTransport:

@@ -18,6 +18,7 @@ class RemoteError(Exception):
     def __init__(self, data):
         super().__init__(data)
         self.rpc_trace = data["trace"]
+        self.rpc_class = data.get("class")
         self.args = data["args"]
 
     def __str__(self):

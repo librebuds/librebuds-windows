@@ -6,6 +6,8 @@ from PyQt6.QtWidgets import QListWidgetItem
 from qasync import asyncSlot
 
 from openfreebuds import is_device_supported, OfbEventKind
+from openfreebuds.exceptions import OfbNotSupportedError
+from openfreebuds.utils.stupid_rpc import RemoteError
 from openfreebuds_backend import bt_list_devices
 from openfreebuds_qt.utils.device_auto_select import OfbQtDeviceAutoSelect
 from openfreebuds_qt.app.dialog.manual_connect import OfbQtManualConnectDialog
@@ -58,14 +60,25 @@ class OfbQtChooseDeviceModule(Ui_OfbQtDeviceSelectModule, OfbQtCommonModule):
             name = item.text()
 
             if not is_device_supported(name):
-                result, name = await OfbQtProfilePickerDialog(self).get_user_response()
-                if not result:
-                    return
-
-            # noinspection PyAsyncCall
-            self._connect_task = asyncio.create_task(
-                self.ofb.start(name, address)
-            )
+                # LibreBuds: the core probes the earbuds and picks a driver by the
+                # reported model code. Only when that fails, ask the user for a profile.
+                try:
+                    await self.ofb.start(name, address)
+                except Exception as e:
+                    if not _is_not_supported_error(e):
+                        raise
+                    result, name = await OfbQtProfilePickerDialog(self).get_user_response()
+                    if not result:
+                        return
+                    # noinspection PyAsyncCall
+                    self._connect_task = asyncio.create_task(
+                        self.ofb.start(name, address)
+                    )
+            else:
+                # noinspection PyAsyncCall
+                self._connect_task = asyncio.create_task(
+                    self.ofb.start(name, address)
+                )
             self.config.set_device_data(name, address)
             self.config.save()
             await asyncio.sleep(0.5)
@@ -91,3 +104,10 @@ class OfbQtChooseDeviceModule(Ui_OfbQtDeviceSelectModule, OfbQtCommonModule):
 
             if value is True:
                 await OfbQtDeviceAutoSelect.trigger(self.ofb)
+
+
+def _is_not_supported_error(e: Exception) -> bool:
+    """True for OfbNotSupportedError, raised locally or passed back over RPC."""
+    if isinstance(e, OfbNotSupportedError):
+        return True
+    return isinstance(e, RemoteError) and getattr(e, "rpc_class", None) == "OfbNotSupportedError"
