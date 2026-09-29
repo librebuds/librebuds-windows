@@ -9,7 +9,7 @@
 </p>
 <p>Based on <a href="https://github.com/melianmiko/OpenFreebuds">OpenFreebuds</a> by melianmiko and contributors (GPL-3.0).</p>
 <p>
-<a href="https://github.com/librebuds/librebuds-windows/releases"><b>💿 Download binaries</b></a> | <a href="https://github.com/librebuds/librebuds-windows#remote-control"><b>❓ FAQ</b></a>
+<a href="https://github.com/librebuds/librebuds-windows/releases"><b>💿 Download binaries</b></a> | <a href="https://github.com/librebuds/librebuds-windows/issues"><b>❓ Issues / help</b></a>
 </p>
 <p>
 <img alt="Tray menu preview" src="docs/preview_0.png" />
