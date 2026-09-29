@@ -18,7 +18,8 @@ class OfbDriverHuawei6(OfbDriverHuaweiGeneric):
     - wear detection, auto pause (2B/11)
     - equalizer (2B/4A). The preset list is taken from the device, because the
       ids differ per model (FreeBuds 6 reported presets 0, 2, 3, 9, 11 and 12). Only switching between built-in presets is
-      offered; custom presets are off.
+      offered; custom presets are off and custom equalizer writes are
+      refused before anything is sent.
     - multipoint toggle and host list (2B/2F, 2B/31) with connect and
       disconnect (2B/33). Unpairing a host is refused and hidden in the UI.
       The auto-connect flag is off because round 2 did not confirm that the
@@ -46,6 +47,6 @@ class OfbDriverHuawei6(OfbDriverHuaweiGeneric):
             OfbHuaweiActionLongTapSplitHandler(w_right=True),
             OfbHuaweiActionSwipeGestureHandler(),
             OfbHuaweiConfigAutoPauseHandler(),
-            OfbHuaweiEqualizerPresetHandler(),
+            OfbHuaweiEqualizerBuiltInOnlyHandler(),
             OfbHuaweiDualConnectNoUnpairHandler(w_auto_connect=False),
         ]

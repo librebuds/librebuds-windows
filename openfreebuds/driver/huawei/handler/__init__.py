@@ -9,6 +9,7 @@ from .anc import OfbHuaweiAncHandler, OfbHuaweiAncLegacyChangeHandler
 from .battery import OfbHuaweiBatteryHandler
 from .config_auto_pause import OfbHuaweiConfigAutoPauseHandler
 from .config_equalizer import OfbHuaweiEqualizerPresetHandler
+from .config_equalizer_built_in_only import OfbHuaweiEqualizerBuiltInOnlyHandler
 from .sound_quality_preference import OfnHuaweiSoundQualityPreferenceHandler
 from .info import OfbHuaweiInfoHandler
 from .logs import OfbHuaweiLogsHandler

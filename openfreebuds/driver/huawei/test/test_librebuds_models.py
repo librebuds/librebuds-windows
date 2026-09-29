@@ -9,11 +9,13 @@ from openfreebuds.driver.huawei.driver.per_model.buds_6 import OfbDriverHuawei6
 from openfreebuds.driver.huawei.driver.per_model.buds_pro_2 import OfbDriverHuaweiPro2
 from openfreebuds.driver.huawei.driver.per_model.buds_pro_3 import OfbDriverHuaweiPro3
 from openfreebuds.driver.huawei.handler import (
+    OfbHuaweiEqualizerBuiltInOnlyHandler,
     OfbHuaweiLowLatencyPreferenceHandler,
     OfbHuaweiVoiceLanguageHandler,
 )
 from openfreebuds.driver.huawei.handler.dual_connect import OfbHuaweiDualConnectNoUnpairHandler
 from openfreebuds.driver.huawei.model_codes import driver_for_model_code
+from openfreebuds.driver.huawei.package import HuaweiSppPackage
 from openfreebuds.exceptions import OfbNotSupportedError
 
 ROUND2_HANDLERS = [
@@ -65,6 +67,7 @@ def test_round2_driver_options(cls):
     assert eq.w_options_predefined is False
     assert eq.w_custom is False
     assert eq.w_fake_built_in is False
+    assert isinstance(eq, OfbHuaweiEqualizerBuiltInOnlyHandler)
     dc = by_id["dual_connect"]
     assert isinstance(dc, OfbHuaweiDualConnectNoUnpairHandler)
     assert dc.w_auto_connect is False
@@ -121,5 +124,61 @@ def test_dual_connect_refuses_auto_connect_when_off():
             with pytest.raises(OfbNotSupportedError):
                 await h.set_property("dual_connect", "001122334455:auto_connect", value)
         assert h.driver.sent == []
+
+    asyncio.run(run())
+
+
+class _FakeEqDriver(_FakeDriver):
+    """Answers 2B/4A reads with built-in presets 1, 2, 3, 9 and current preset 2."""
+
+    async def get_property(self, group, prop, fallback=None):
+        return self.props.get(group, {}).get(prop, fallback)
+
+    async def put_property(self, group, prop, value, extend_group=False):
+        if prop is None:
+            self.props.setdefault(group, {}).update(value)
+        else:
+            await super().put_property(group, prop, value, extend_group)
+
+    async def send_package(self, pkg, timeout=5):
+        self.sent.append(pkg)
+        if pkg.command_id == b"\x2b\x4a":
+            return HuaweiSppPackage(b"\x2b\x4a", [(2, 2), (3, bytes([1, 2, 3, 9]))])
+        return None
+
+
+async def _eq_handler():
+    h = OfbHuaweiEqualizerBuiltInOnlyHandler()
+    h.driver = _FakeEqDriver()
+    await h.on_init()
+    h.driver.sent = []
+    return h
+
+
+@pytest.mark.parametrize("prop,value", [
+    ("equalizer_rows", "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"),
+    ("equalizer_rows", "null"),
+    ("equalizer_saved", "true"),
+    ("equalizer_saved", "false"),
+])
+def test_equalizer_refuses_custom_writes(prop, value):
+    async def run():
+        h = await _eq_handler()
+        assert h.driver.props["sound"]["equalizer_max_custom_modes"] == "0"
+        with pytest.raises(OfbNotSupportedError):
+            await h.set_property("sound", prop, value)
+        assert h.driver.sent == []
+
+    asyncio.run(run())
+
+
+def test_equalizer_preset_selection_still_sends():
+    async def run():
+        h = await _eq_handler()
+        assert h.driver.props["sound"]["equalizer_preset"] == "equalizer_preset_hardbass"
+        await h.set_property("sound", "equalizer_preset", "equalizer_preset_treble")
+        first = h.driver.sent[0]
+        assert first.command_id == b"\x2b\x49"
+        assert first.parameters == {1: bytes([3])}
 
     asyncio.run(run())
